@@ -43,12 +43,13 @@ class AltepostParser
   private
 
   def update_week(date)
+    puts date2week(date)
     return false if @week == date2week(date)
     switch_week(date2week(date))
   end
 
   def date2week(date)
-    "#{Date.parse(date.to_s).cweek}/#{Date.parse(date.to_s).cwyear}"
+    "#{Date.parse(date.to_s).strftime('%V')}/#{Date.parse(date.to_s).cwyear}"
   end
 
   def add_image(dish)
@@ -67,7 +68,7 @@ class AltepostParser
   end
 
   def validate_week(week)
-    raise DateFormatException, "use DD/YYYY, not #{week}" unless /\A[0-9]{2}\/20[0-9]{2}\z/ =~ week
+    raise DateFormatException, "use WW/YYYY, not #{week}" unless /\A[0-9]{2}\/20[0-9]{2}\z/ =~ week
   end
 
   def validate_date(date)
