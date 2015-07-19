@@ -43,7 +43,6 @@ class AltepostParser
   private
 
   def update_week(date)
-    puts date2week(date)
     return false if @week == date2week(date)
     switch_week(date2week(date))
   end
