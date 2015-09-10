@@ -26,8 +26,9 @@ class AltepostParser
         dish = {}
         dish[:meal_id] = metadata.pop
         dish[:food_type] = metadata.pop
-        dish[:name] = article.at_xpath("./div[@class='text']/span/text()").to_s
+        dish[:name] = article.at_xpath("./div[@class='text']/span/text()").to_s.strip
         dish[:date] = date
+        dish[:calories] = calories article.at_xpath("./div[@class='calories']/text()").to_s.strip.scan(/(\d+)/).flatten
         add_image(dish)
         dishes << dish
       end
@@ -41,6 +42,14 @@ class AltepostParser
   end
 
   private
+
+  def calories arr
+    arr = arr.map(&:to_i)
+    total = arr.inject(:+)
+    len = arr.length
+    average = total / len
+    average
+  end
 
   def update_week(date)
     return false if @week == date2week(date)
